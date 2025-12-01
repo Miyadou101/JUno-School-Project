@@ -18,4 +18,5 @@ public abstract class Card {
     public abstract boolean IsPlayableOn(Card topCard);
     public abstract void applyEffects(Game game);
 
+    public abstract String toString();
 }
