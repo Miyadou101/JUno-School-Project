@@ -7,7 +7,7 @@ public class WildCard extends Card {
     private Color chosenColor;
 
     public WildCard (){
-        super(Color.WILD)
+        super(Color.WILD);
     }
 
     public boolean isPlayableOn(Card other){
