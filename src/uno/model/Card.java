@@ -15,8 +15,8 @@ public abstract class Card {
         return color;
     }
 
-    public abstract boolean IsPlayableOn(Card topCard);
-    public abstract void applyEffects(Game game);
+    public abstract boolean isPlayableOn(Card topCard);
+    public abstract void applyEffect(Game game);
 
     public abstract String toString();
 }

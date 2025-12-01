@@ -1,7 +1,7 @@
 package uno.util;
 
 public enum Direction {
-    CLOCK , COUNTERCLOCK
+    CLOCKWISE , COUNTER_CLOCKWISE
 
 
 }
