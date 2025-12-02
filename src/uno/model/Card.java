@@ -5,7 +5,7 @@ import uno.util.Color;
 
 public abstract class Card {
     
-    protected Color color ; 
+    protected final Color color ; 
 
     public Card (Color color){
         this.color = color;
@@ -16,7 +16,6 @@ public abstract class Card {
     }
 
     public abstract boolean isPlayableOn(Card topCard);
-    public abstract void applyEffect(Game game);
 
     public abstract String toString();
 }

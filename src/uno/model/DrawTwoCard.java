@@ -1,7 +1,6 @@
 package uno.model;
 
 import uno.util.Color;
-import uno.util.ActionType;
 
 public class DrawTwoCard extends Card implements ActionCard {
 
@@ -9,14 +8,6 @@ public class DrawTwoCard extends Card implements ActionCard {
         super(color);
     }
 
-    private final ActionType ACTION = ActionType.DRAW_TWO;   
-    
-
-     @Override
-    public ActionType getAction() {
-        return ACTION;
-    }
-           
     @Override
     public void applyEffect(Game game) {
         game.drawCards(2);

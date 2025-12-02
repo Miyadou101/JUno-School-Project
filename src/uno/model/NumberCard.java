@@ -2,7 +2,7 @@ package uno.model;
 
 import uno.util.Color;
 
-public class NumberCard extends Card {
+public class NumberCard extends Card  {
 
     private int value ;
 
@@ -30,10 +30,6 @@ public class NumberCard extends Card {
         return false;
     }
 
-    @Override
-    public void applyEffect(Game game) {
- 
-    }
 
     @Override
     public String toString() {
@@ -41,7 +37,6 @@ public class NumberCard extends Card {
     }
 
 }
-
 
 
 

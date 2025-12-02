@@ -3,7 +3,7 @@ package uno.model;
 import java.util.Stack;
 import java.util.Collections;
 import uno.util.Color;
-import uno.util.Action;
+
 
 public class Deck {
     private Stack<Card> cards;
@@ -12,11 +12,11 @@ public class Deck {
         cards = new Stack<Card>();
     
         createDeck();
+        validateDeck();
         
     }
     
-    public void createDeck(){
-        
+    private void createDeck(){
         for(Color color : Color.values()){
             if (color != Color.WILD){
                 cards.push(new NumberCard(color , 0));
@@ -31,14 +31,13 @@ public class Deck {
 
         for(Color color : Color.values()){
             if (color != Color.WILD){
-                cards.push(new SkipCard(color));
-                cards.push(new SkipCard(color));
-            
-                cards.push(new ReverseCard(color));
-                cards.push(new ReverseCard(color));
-            
-                cards.push(new DrawTwoCard(color));
-                cards.push(new DrawTwoCard(color));
+                
+                for (int i = 0 ; i < 2 ; i++){
+
+                    cards.push(new SkipCard(color));
+                    cards.push(new ReverseCard(color));
+                    cards.push(new DrawTwoCard(color));
+                }
         }
     }
     
@@ -58,18 +57,25 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
-    public Card draw (){
-        if (cards.isEmpty()){
-        return null;
-        }
-    return cards.pop();
-    }
-
     public boolean isEmpty(){
         return cards.isEmpty();
     }
 
+    public Card draw (){
+        if (cards.isEmpty()){
+            return null;
+            }
+
+        return cards.pop();
+    }
+
     public int size() {
         return cards.size();
+    }
+
+    private void validateDeck() {
+        if (cards.size() != 108) {
+            System.out.println("Warning: Deck has " + cards.size() + " cards, expected 108");
+        }
     }
 }

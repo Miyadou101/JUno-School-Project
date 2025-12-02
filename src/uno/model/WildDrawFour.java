@@ -1,8 +1,11 @@
 package uno.model;
 
-import uno.util.Color;
 
 public class WildDrawFour extends WildCard {
+
+    public WildDrawFour (){
+        super();
+    }
 
     @Override
     public void applyEffect(Game game){
