@@ -18,7 +18,7 @@ public class SkipCard extends Card implements ActionCard {
     @Override
     public boolean isPlayableOn(Card topCard) {
         return this.color == topCard.getColor() || 
-               topCard instanceof ActionCard;
+               topCard instanceof SkipCard;
     }
     
     @Override
@@ -26,4 +26,5 @@ public class SkipCard extends Card implements ActionCard {
         return color + " SKIP";
     }
 }
+
 
