@@ -3,7 +3,6 @@ package uno.model;
 import uno.util.Color;
 
 import java.util.Stack;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game {
@@ -25,6 +24,9 @@ public class Game {
     }
 
     public void start() {
+        deck = new Deck();
+
+    
     }
    
     public void nextTurn(){
@@ -37,15 +39,13 @@ public class Game {
 
         current = next;
 
-        if (hasPlayable(getTopCard())){
-
-        }
-
 
     }
+
+
+    
     
     public void playCard(Card card) {
-    
     
     }
     
@@ -76,7 +76,11 @@ public class Game {
     }
     
     public void drawCards(int numCardDrawn) {
+        for (int i=0 ; i < numCardDrawn ;i++){
+            
         
+        
+        }
         
     }
     
@@ -107,6 +111,8 @@ public class Game {
     }
     
     public void setCurrentColor(Color color) {
+        this.currentColor= askColor();     
+    
     }
     
     public boolean isOver() {
@@ -121,3 +127,4 @@ public class Game {
     public void printState() {
     }
 }
+
