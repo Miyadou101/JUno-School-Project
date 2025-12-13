@@ -8,13 +8,13 @@ import uno.util.Color;
 public class Deck {
     private Stack<Card> cards;
     
-    public Deck (){
+    public Deck(){
         cards = new Stack<Card>();
     
         createDeck();
-        validateDeck();
         
     }
+    
     
     private void createDeck(){
         for(Color color : Color.values()){
@@ -73,9 +73,5 @@ public class Deck {
         return cards.size();
     }
 
-    private void validateDeck() {
-        if (cards.size() != 108) {
-            System.out.println("Warning: Deck has " + cards.size() + " cards, expected 108");
-        }
-    }
 }
+
