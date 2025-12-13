@@ -17,7 +17,7 @@ public class DrawTwoCard extends Card implements ActionCard {
     @Override
     public boolean isPlayableOn(Card topCard) {
         return this.color == topCard.getColor() || 
-               topCard instanceof ActionCard;
+               topCard instanceof DrawTwoCard;
     }
     
     @Override
