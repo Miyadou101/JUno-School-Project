@@ -15,6 +15,9 @@ public class Game {
     int direction ;
     Color currentColor ;
 
+    private int cardsToDraw = 0;
+    private boolean skipNext = false; 
+
     Scanner scan = new Scanner(System.in);
 
     public Game(int current , int direction , Color currentColor){
@@ -24,29 +27,85 @@ public class Game {
     }
 
     public void start() {
+        
+        players = new Player[4];
+        players[0] = new Player("Player 1");
+        players[1] = new Player("Player 2");
+        players[2] = new Player("Player 3");
+        players[3] = new Player("Player 4");
+        
         deck = new Deck();
 
+        for (int i = 0; i < 7; i++) {
+            for (Player player : players) {
+                player.draw(deck);
+            }
+        }
     
+        Card firstCard ;
+        do {
+            firstCard = deck.draw();
+
+        } while (firstCard.getColor() == Color.WILD);
+
+        discardPile.push(firstCard);
+        currentColor = firstCard.getColor();
+
+        current = 0;
+        direction =1;
     }
+
    
     public void nextTurn(){
-
-        next = (current + direction ) % players.length;
-
-        if (next < 0) {
-            next = players.length + next;
+        
+        if (cardsToDraw>0){
+            Player nextPlayer = players[(current +direction) % players.length];
+            
+            for(int i=0 ; i<cardsToDraw ; i++){
+                reshuffleIfNeeded();
+                nextPlayer.draw(deck);
+            }
+            
+            cardsToDraw =0;
         }
 
-        current = next;
+        if(skipNext){
+            skipNext =false;
+            current = (current+direction) % players.length;
+            wrapAround();
+            return;
+        }
 
-
+        current = (current+direction) % players.length;
+        wrapAround();
     }
 
+    
+    public void playCard(int cardIndex) {
+        Player currentPlayer = getCurrentPlayer();
+   
+        Card cardToPlay = currentPlayer.getCard(cardIndex);
+        Card topCard = getTopCard();
+   
+        if(!cardToPlay.isPlayableOn(topCard)){
+            return;
+        }
 
-    
-    
-    public void playCard(Card card) {
-    
+        Card playedCard =currentPlayer.playCard(cardIndex);
+        discardPile.push(playedCard);
+
+        if (playedCard instanceof ActionCard) {
+            ((ActionCard) playedCard).applyEffect(this);
+        } 
+        else if (playedCard instanceof WildCard) {
+            ((WildCard) playedCard).applyEffect(this);
+        }
+
+        if (playedCard.getColor() != Color.WILD) {
+            currentColor = playedCard.getColor();
+        }
+
+        nextTurn();
     }
     
     public Card getTopCard() {
@@ -62,13 +121,7 @@ public class Game {
     }
     
     public void skipNext() {
-        nextIndex = (current + direction )% players.length;
-
-        nextTurn();
-        nextTurn();
-
-        current = nextIndex ;
-        
+        skipNext = true;
     }
     
     public void reverseDirection() {
@@ -76,34 +129,37 @@ public class Game {
     }
     
     public void drawCards(int numCardDrawn) {
-        for (int i=0 ; i < numCardDrawn ;i++){
-            
-        
-        
+        cardsToDraw =numCardDrawn;
+        skipNext = true;
+    }
+
+    public void wrapAround() {
+        while (current<0) {
+            current += players.length;
         }
-        
+        current = current % players.length;
     }
     
     public Color askColor() {
         
         while(true){
         
-        System.out.print ("Choose a Color : RED , BLUE , GREEN , YELLOW .");
-        System.out.print ("1.RED .");
-        System.out.print ("2.BLUE .");
-        System.out.print ("3.GREEN .");
-        System.out.print ("4.YELLOW .");
+        System.out.println("Choose a Color : RED , BLUE , GREEN , YELLOW .");
+        System.out.println("1.RED .");
+        System.out.println("2.BLUE .");
+        System.out.println("3.GREEN .");
+        System.out.println("4.YELLOW .");
 
-        int choice = scan.nextInt();
+        String choice= scan.nextLine().trim();;
 
         switch (choice) {
-            case 1 : return Color.RED;
-            case 2 : return Color.BLUE;
-            case 3 : return Color.GREEN;
-            case 4 : return Color.YELLOW;
+            case "1" : return Color.RED;
+            case "2" : return Color.BLUE;
+            case "3" : return Color.GREEN;
+            case "4" : return Color.YELLOW;
         
             default:
-                System.out.print("Wrong Choice , Please enter either 1,2,3,4");
+                System.out.println("Wrong Choice , Please enter either 1,2,3,4");
                 break;
             }        
    
@@ -111,10 +167,21 @@ public class Game {
     }
     
     public void setCurrentColor(Color color) {
-        this.currentColor= askColor();     
+        this.currentColor=color; 
     
     }
-    
+   
+    private void reshuffleIfNeeded() {
+        if (deck.isEmpty() && discardPile.size() > 1) {
+            Card topCard = discardPile.pop();
+            while (!discardPile.isEmpty()) {
+                deck.addCard(discardPile.pop());
+            }
+            deck.shuffle();
+            discardPile.push(topCard);
+        }
+    }
+
     public boolean isOver() {
         for (Player player : players){
             if (player.getHandSize()==0){
@@ -127,4 +194,3 @@ public class Game {
     public void printState() {
     }
 }
-
