@@ -11,7 +11,6 @@ public class DrawTwoCard extends Card implements ActionCard {
     @Override
     public void applyEffect(Game game) {
         game.drawCards(2);
-        game.skipNext();
     }
 
     @Override
